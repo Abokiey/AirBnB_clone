@@ -6,6 +6,7 @@ import cmd
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
+from models.place import Place
 from models.amenity import Amenity
 from models.city import City
 from models.state import State
@@ -53,7 +54,7 @@ class HBNBCommand(cmd.Cmd):
         if line == '':
             print('** class name missing **')
         elif args[0] not in HBNBCommand.classes:
-            print('** class does\'t exist **')
+            print('** class doesn\'t exist **')
         else:
             if len(args) < 2:
                 print('** instance id missing **')
@@ -63,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
                 key = classname + '.' + objid
                 try:
                     print(storage.all()[key])
-                except keyError:
+                except KeyError:
                     print('** no instance found **')
 
     def do_destroy(self, line):
@@ -82,11 +83,11 @@ class HBNBCommand(cmd.Cmd):
             else:
                 classname = args[0]
                 objid = args[1]
-                key = classname + '.' objid
+                key = classname + '.' + objid
                 try:
                     del storage.all()[key]
                     storage.save()
-                except keyError:
+                except KeyError:
                     print('** no instance found **')
 
     def do_all(self, line):
@@ -202,9 +203,9 @@ class HBNBCommand(cmd.Cmd):
                 elif cls not in self.classes:
                     print("** class doesn't exist **")
                 else:
-                    print("** Unknown syntax:" line)
+                    print("** Unknown syntax:", line)
         else:
-            print("** Unknown syntax:" line)
+            print("** Unknown syntax:", line)
 
     def do_quit(self, line):
         """Quit command to exit from cmd"""
